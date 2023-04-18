@@ -1,6 +1,28 @@
 Resources:
   S3Bucket:
-    Type: AWS::S3::Bucket
+    Type: "AWS::S3::Bucket"
     Properties:
       BucketName: "STD21063"
       AccessControl: "Private"
+
+  BucketNameParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: "/STD21063/bucket/name"
+      Description: "Name of the example bucket"
+      Type: "String"
+      Value: !Ref S3Bucket
+      Tags:
+        - Key: "Name"
+          Value: "Example Bucket Name"
+
+  BucketArnParameter:
+    Type: "AWS::SSM::Parameters"
+    Properties:
+      Name: "/STD21063/bucket/arn"
+      Description: "ARN of the example bucket"
+      Type: "String"
+      Value: !GetAtt S3Bucket.Arn
+      Tags:
+        - Key: "Name"
+          Value: "Example Bucket Arn"
